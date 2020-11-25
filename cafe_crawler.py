@@ -6,6 +6,14 @@ from os import system
 
 from selenium import webdriver
 
+# URLs
+CAFE24_ADMIN_LOGIN_URL = 'https://eclogin.cafe24.com/Shop/?url=Init&login_mode=2&is_multi=F'
+
+# 카페24 유저 정보
+CAFE24_MALL_ID       = 'benitomaster'
+CAFE24_USER_ID       = 'guest'
+CAFE24_USER_PASSWORD = 'qpslxh88!!'
+
 def display_message_box(title, body):
     root = tk.Tk()
     root.geometry("400x300")
@@ -22,29 +30,21 @@ def display_message_box(title, body):
     root.mainloop()
     
 def login_cafe24_admin(driver, mall_id, user_id, user_password):
-    driver.get(CAFE24_ADMIN_LOGIN_URL)
-    driver.find_element_by_id('mall_id').send_keys(CAFE24_MALL_ID)
-    driver.find_element_by_id('userid').send_keys(CAFE24_USER_ID)
-    driver.find_element_by_id('userpasswd').send_keys(CAFE24_USER_PASSWORD)
-    
-    display_message_box('필독! 반드시 읽어주세요!', 'reCAPTCHA가 인증을 반드시 완료한 후 OK 버튼을 눌러주세요!')
+    driver.find_element_by_id('mall_id').send_keys(mail_id)
+    driver.find_element_by_id('userid').send_keys(user_id)
+    driver.find_element_by_id('userpasswd').send_keys(user_password)
     
     driver.find_element_by_xpath('//*[@id="tabStaff"]/div/fieldset/p[1]/a').click()
-    
-    driver.implicitly_wait(5)
-
-# 로그인 유알엘
-CAFE24_ADMIN_LOGIN_URL = 'https://eclogin.cafe24.com/Shop/?url=Init&login_mode=2&is_multi=F'
-
-# 카페24 유저 아이디
-CAFE24_MALL_ID       = 'benitomaster'
-CAFE24_USER_ID       = 'guest'
-CAFE24_USER_PASSWORD = 'qpslxh88!!'
+    driver.sleep(3)
 
 # 로그인 페이지 접속
 driver1 = webdriver.Chrome()
+driver1.get(CAFE24_ADMIN_LOGIN_URL)
 
+display_message_box('필독! 반드시 읽어주세요!', 'reCAPTCHA가 인증을 반드시 완료한 후 OK 버튼을 눌러주세요!')
 login_cafe24_admin(driver1, CAFE24_MALL_ID, CAFE24_USER_ID, CAFE24_USER_PASSWORD)
+
+driver1.get()
 
 # 드라이버 종료
 driver1.quit()
