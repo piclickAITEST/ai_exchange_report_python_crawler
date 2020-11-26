@@ -1,3 +1,11 @@
 .vscode
+
+# 파이썬 가상 환경 설정
 Pipfile
 Pipfile.lock
+
+# 크롬 드라이버
+chromedriver.exe
+
+# 테스트 파일, 완성 후 제거 요망
+time_checker.py
