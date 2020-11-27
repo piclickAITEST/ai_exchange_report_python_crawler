@@ -144,12 +144,18 @@ returns  = []
 refunds  = []
 refdates = []
 today = datetime.now()
-for i in range(1, 1 + 1):
+for i in range(1, LIMIT_DAYS + 1):
     dt = today - timedelta(days=i)
     
     year    = str(dt.year)
     month   = str(dt.month)
     day     = str(dt.day)
+    
+    if len(month) == 1:
+        month = f'0{month}'
+    if len(day) == 1:
+        day = f'0{day}'
+    
     refdate = f'{year}-{month}-{day}'
     
     total_order_count = crawl_total_order_count(driver, refdate, year, month, day)     # 주문수 (품목별)
@@ -164,9 +170,9 @@ for i in range(1, 1 + 1):
     print(f'{refdate} :', total_order_count, total_return_count, total_refund_count)
 
 # 데이터 누락 여부 확인!!!
-if len(orders) != len(returns) != len(refunds) != len(refdates):
-    print(OMITTED_DATA_ERROR_MESSAGE)
-    driver.quit()
+# if len(orders) != len(returns) != len(refunds) != len(refdates):
+#     print(OMITTED_DATA_ERROR_MESSAGE)
+#     driver.quit()
     
 print(CRAWLING_SUCCESS_MESSAGE)
 
@@ -186,6 +192,8 @@ for idx, refdate in enumerate(refdates):
     refund_url = f'https://log.piclick.kr/util/exchange_stat.php?type=refund&cnt={refund_count}&date={refdate}&site_id={BENITO_SITE_ID}'
     driver.get(refund_url)
     time.sleep(1)
+    
+    print(f'{refdate}: {order_count} {return_count} {refund_count} DB 전송 완료')
     
 # 성공 메시지
 print(DB_SUCCESS_MESSAGE)
